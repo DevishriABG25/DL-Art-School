@@ -51,8 +51,11 @@ class ExtensibleTrainer(BaseModel):
                'step': 0,
                'dist': opt['dist']
         }
+        print(self.env,"self env")
         if opt['path']['models'] is not None:
-               self.env['base_path'] = os.path.join(opt['path']['models'])
+            print(opt['path']['models'],"opt['path']['models'])  
+            self.env['base_path'] = os.path.join(opt['path']['models'])
+            print(self.env['base_path'],"self.env['base_path'])
 
         self.mega_batch_factor = 1
         if self.is_train:
