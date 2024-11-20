@@ -35,6 +35,7 @@ def register_model(func):
 def find_registered_model_fns(base_path='models'):
     found_fns = {}
     module_iter = pkgutil.walk_packages([base_path])
+    print(os.listdir(base_path))
     for mod in module_iter:
         if os.path.join(os.getcwd(), base_path) not in mod.module_finder.path:
             continue   # I have no idea why this is necessary - I think it's a bug in the latest PyWindows release.
