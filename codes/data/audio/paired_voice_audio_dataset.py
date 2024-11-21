@@ -189,11 +189,11 @@ class TextWavLoader(torch.utils.data.Dataset):
     #     return tokens
 
     def get_text(self, text):
-    tokens = self.tokenizer.encode(text)
-    tokens = torch.IntTensor(tokens)
-    tokens = tokens[tokens != 1]  # Remove tokens with value 1
-    assert not torch.any(tokens == 0)
-    return tokens
+        tokens = self.tokenizer.encode(text)
+        tokens = torch.IntTensor(tokens)
+        tokens = tokens[tokens != 1]  # Remove tokens with value 1
+        assert not torch.any(tokens == 0)
+        return tokens
 
 
     def __getitem__(self, index):
