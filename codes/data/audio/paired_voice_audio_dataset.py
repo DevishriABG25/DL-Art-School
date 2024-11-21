@@ -178,15 +178,23 @@ class TextWavLoader(torch.utils.data.Dataset):
         wav = load_audio(audiopath, self.sample_rate)
         return (text_seq, wav, text, audiopath_and_text[0], type)
         
+    # def get_text(self, text):
+    #     tokens = self.tokenizer.encode(text)
+    #     tokens = torch.IntTensor(tokens)
+    #     if self.use_bpe_tokenizer:
+    #         # Assert if any UNK,start tokens encountered.
+    #         assert not torch.any(tokens == 1)
+    #     # The stop token should always be sacred.
+    #     assert not torch.any(tokens == 0)
+    #     return tokens
+
     def get_text(self, text):
-        tokens = self.tokenizer.encode(text)
-        tokens = torch.IntTensor(tokens)
-        if self.use_bpe_tokenizer:
-            # Assert if any UNK,start tokens encountered.
-            assert not torch.any(tokens == 1)
-        # The stop token should always be sacred.
-        assert not torch.any(tokens == 0)
-        return tokens
+    tokens = self.tokenizer.encode(text)
+    tokens = torch.IntTensor(tokens)
+    tokens = tokens[tokens != 1]  # Remove tokens with value 1
+    assert not torch.any(tokens == 0)
+    return tokens
+
 
     def __getitem__(self, index):
         self.skipped_items += 1
