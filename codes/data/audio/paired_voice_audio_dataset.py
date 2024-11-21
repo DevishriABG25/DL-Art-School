@@ -173,46 +173,20 @@ class TextWavLoader(torch.utils.data.Dataset):
 
     def get_wav_text_pair(self, audiopath_and_text):
         # separate filename and text
-        # print(audiopath_and_text, self,audiopath_and_text[0],audiopath_and_text[1],audiopath_and_text[2],"-------------------------------------------")
         audiopath, text, type = audiopath_and_text[0], audiopath_and_text[1], audiopath_and_text[2]
-        print(audiopath,"-------------------")
-        print(text,"+++++++++++++++++++++")
-        print(type,"))))))((((((")
         text_seq = self.get_text(text)
         wav = load_audio(audiopath, self.sample_rate)
         return (text_seq, wav, text, audiopath_and_text[0], type)
         
     def get_text(self, text):
-        print(text,"================================")
         tokens = self.tokenizer.encode(text)
-        print(tokens,"7777777777777777777777777777777777777777777777777")
         tokens = torch.IntTensor(tokens)
-        print(tokens,"99999999999999999999999999999999999999999999999999999")
-        try:
-            if self.use_bpe_tokenizer:
-                # Assert if any UNK, start tokens encountered.
-                assert not torch.any(tokens == 1), "UNK or start token found in tokens"
-            # The stop token should always be sacred.
-            assert not torch.any(tokens == 0), "Stop token found in tokens"
-        except AssertionError as e:
-            print(f"Skipping tokens due to error: {e}")
-            return None  # Optionally return None or handle error tokens differently
+        if self.use_bpe_tokenizer:
+            # Assert if any UNK,start tokens encountered.
+            assert not torch.any(tokens == 1)
+        # The stop token should always be sacred.
+        assert not torch.any(tokens == 0)
         return tokens
-
-
-    # def get_text(self, text):
-    #     print(text)
-    #     tokens = self.tokenizer.encode(text)
-    #     print(tokens)
-    #     tokens = torch.IntTensor(tokens)
-    #     print(tokens)
-    #     print("7777777777777777777777777777777777777777777777777")
-    #     if self.use_bpe_tokenizer:
-    #         # Assert if any UNK,start tokens encountered.
-    #         assert not torch.any(tokens == 1)
-    #     # The stop token should always be sacred.
-    #     assert not torch.any(tokens == 0)
-    #     return tokens
 
     def __getitem__(self, index):
         self.skipped_items += 1
