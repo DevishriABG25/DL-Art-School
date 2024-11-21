@@ -191,7 +191,6 @@ class TextWavLoader(torch.utils.data.Dataset):
     def __getitem__(self, index):
         self.skipped_items += 1
         try:
-            print(self.audiopaths_and_text[index],"self.audiopaths_and_text[index]")
             tseq, wav, text, path, type = self.get_wav_text_pair(self.audiopaths_and_text[index])
             if text is None or len(text.strip()) == 0:
                 raise ValueError
