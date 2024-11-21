@@ -173,7 +173,9 @@ class TextWavLoader(torch.utils.data.Dataset):
 
     def get_wav_text_pair(self, audiopath_and_text):
         # separate filename and text
+        print(audiopath_and_text, self,audiopath_and_text[0],audiopath_and_text[1],audiopath_and_text[2],"-------------------------------------------")
         audiopath, text, type = audiopath_and_text[0], audiopath_and_text[1], audiopath_and_text[2]
+        print(audiopath, text,type,"000")
         text_seq = self.get_text(text)
         wav = load_audio(audiopath, self.sample_rate)
         return (text_seq, wav, text, audiopath_and_text[0], type)
@@ -191,6 +193,7 @@ class TextWavLoader(torch.utils.data.Dataset):
     def __getitem__(self, index):
         self.skipped_items += 1
         try:
+            print(self.audiopaths_and_text[index],"self.audiopaths_and_text[index]")
             tseq, wav, text, path, type = self.get_wav_text_pair(self.audiopaths_and_text[index])
             if text is None or len(text.strip()) == 0:
                 raise ValueError
