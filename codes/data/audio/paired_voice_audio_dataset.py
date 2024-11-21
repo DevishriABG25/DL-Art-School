@@ -166,7 +166,7 @@ class TextWavLoader(torch.utils.data.Dataset):
         self.use_bpe_tokenizer = opt_get(hparams, ['use_bpe_tokenizer'], True)
         if self.use_bpe_tokenizer:
             from data.audio.voice_tokenizer import VoiceBpeTokenizer
-            self.tokenizer = VoiceBpeTokenizer(opt_get(hparams, ['tokenizer_vocab'], 'experiments/bpe_lowercase_asr_256.json'))
+            self.tokenizer = VoiceBpeTokenizer(opt_get(hparams, ['tokenizer_vocab'], '../experiments/bpe_lowercase_asr_256.json'))
         else:
             self.tokenizer = CharacterTokenizer()
         self.skipped_items = 0  # records how many items are skipped when accessing an index.
@@ -317,4 +317,3 @@ if __name__ == '__main__':
             save(b, i, ib, 'wav')
         if i > 5:
             break
-
